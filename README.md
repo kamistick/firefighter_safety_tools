@@ -14,11 +14,11 @@ To use the toolbax in the ArcGIS Pro GUI, download the .atbx file to an appropri
 
 The following tools are documented with a description, parameter specifications, and examples:
 
-* [Download LANDFIRE EVH and DTM from Polygon](https://github.com/kamistick/firefighter_safety_tools/edit/readme_edits/README.md#download-landfire-evh-and-dtm-from-polygon)
+* [Download LANDFIRE EVH and DTM from Polygon](https://github.com/kamistick/firefighter_safety_tools#download-landfire-evh-and-dtm-from-polygon)
 
-* [Safe Separation Distance (SSD)](https://github.com/kamistick/firefighter_safety_tools/edit/readme_edits/README.md#safe-separation-distance-ssd)
+* [Safe Separation Distance (SSD)](https://github.com/kamistick/firefighter_safety_tools#safe-separation-distance-ssd)
 
-* [Safe Separation Distance Evaluator (SSDE)](https://github.com/kamistick/firefighter_safety_tools/edit/readme_edits/README.md#safe-separation-distance-evaluator-ssde)
+* [Safe Separation Distance Evaluator (SSDE)](https://github.com/kamistick/firefighter_safety_tools#safe-separation-distance-evaluator-ssde)
 
 ### Download LANDFIRE EVH and DTM from Polygon 
 #### Description
