@@ -1,4 +1,4 @@
-## script for custom toolbox
+## import relevant packages
 
 import arcpy
 import sys
@@ -10,17 +10,20 @@ import os
 import math
 import shutil
 
-#arcpy.env.workspace = sys.argv[7]
-#arcpy.env.scratchWorkspace = sys.argv[7]
+arcpy.env.overwriteOutput = True
 arcpy.env.parallelProcessingFactor = "50%"
-#TempFolders = sys.argv[7]
-# check out sa extension
-arcpy.CheckOutExtension("spatial")
+
+try:
+    # check out sa extension
+    arcpy.CheckOutExtension("spatial")
+except:
+    arcpy.AddError("Could not check out Spatial Analyst license. Are you licensed to use this extension?")
+    sys.exit()
 
 ##############################
 ## create processing folder ##
 ##############################
-processing_dir = sys.argv[6] + "//SSDE_processing" #changed
+processing_dir = sys.argv[6] + "//SSDE_processing" 
 if not os.path.exists(processing_dir):
         os.mkdir(processing_dir)
 
@@ -28,9 +31,6 @@ arcpy.env.workspace = processing_dir
 arcpy.env.scratchWorkspace = processing_dir
 TempFolders = processing_dir
 
-###
-### try putting everything below into a method so you can delete intermediary files 
-###
 
 def run_ssde():
     ##############################
@@ -69,7 +69,7 @@ def run_ssde():
     sr2 = arcpy.Describe(dtm).spatialReference
     sr3 = arcpy.Describe(sz).spatialReference
     if sr1.name != utm_sr.name:
-        arcpy.management.ProjectRaster(vh, 'vh_reproj.tif', utm_sr, "NEAREST") # these need to be written to file, can't just be held in memory?
+        arcpy.management.ProjectRaster(vh, 'vh_reproj.tif', utm_sr, "NEAREST") # these need to be written to file, can't just be held in memory.
         vh = 'vh_reproj.tif'
         arcpy.AddMessage("Vegetation height raster converted to UTM coordinates.")
     else:
@@ -89,6 +89,7 @@ def run_ssde():
     arcpy.AddMessage(ctime() + ": Done.")
     # clear the extent to allow geoprocessing to determine appropriate extents
     arcpy.env.extent = None
+    
     ##############################
     ##       check overlap      ##
     ##############################
@@ -105,13 +106,14 @@ def run_ssde():
         arcpy.AddMessage("Vegetation height raster contains proposed safety zone.")
     else:
         arcpy.AddError("Vegetation height raster does not contain extent of safety zone.")
-        #sys.exit() I think this would end the script here?
+        sys.exit() 
     
     if dtm_extent.contains(sz_extent):
         arcpy.AddMessage("DTM raster contains proposed safety zone.")
     else:
         arcpy.AddError("DTM raster does not contain extent of safety zone.")
-        #sys.exit() I think this would end the script here?
+        sys.exit() 
+        
     arcpy.AddMessage(ctime() + ": Done.")
     
     ###############################
@@ -285,13 +287,19 @@ def run_ssde():
     # check in sa extension
     arcpy.CheckInExtension("spatial")
 
+# run SSD function
 run_ssde()
+
+    
+
 # clean up files 
 def delete_files():
     arcpy.Delete_management(processing_dir)
     seg_ras = Raster(sys.argv[6] + "seg_ras.tif")
     arcpy.Delete_management(seg_ras)
-delete_files()
 
-# delete folder
-#os.rmdir(processing_dir)
+try:
+    delete_files()
+except:
+    arcpy.AddError("Could not delete temporary files.")
+    sys.exit()

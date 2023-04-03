@@ -1,4 +1,4 @@
-## script for custom toolbox
+## import relevant packages
 
 import arcpy
 import sys
@@ -10,46 +10,44 @@ import os
 import math
 import shutil
 
+arcpy.env.overwriteOutput = True
 arcpy.env.parallelProcessingFactor = "50%"
 
 # check out sa extension
-arcpy.CheckOutExtension("spatial")
+try:
+    arcpy.CheckOutExtension("spatial")
+except:
+    arcpy.AddError("Could not check out Spatial Analyst license. Are you licensed to use this extension?")
+    sys.exit()
 
 ##############################
 ## create processing folder ##
 ##############################
-processing_dir = sys.argv[5] + "//processing"
-if not os.path.exists(processing_dir):
-        os.mkdir(processing_dir)
+try: 
+    processing_dir = sys.argv[5] + "//processing"
+    if not os.path.exists(processing_dir):
+            os.mkdir(processing_dir)
+    
+    arcpy.env.workspace = processing_dir
+    arcpy.env.scratchWorkspace = processing_dir
+    TempFolders = processing_dir
+except: 
+    arcpy.AddError("Could not create temporary processing folder.")
+    sys.exit()
 
-arcpy.env.workspace = processing_dir
-arcpy.env.scratchWorkspace = processing_dir
-TempFolders = processing_dir
-
-###
-### try putting everything below into a method so you can delete intermediary files 
-###
 
 def run_ssd():
     ##############################
     ## get parameters from tool ##
     ##############################
-    #sz = sys.argv[1]
-    #vh = sys.argv[2]
-    #dtm = sys.argv[3]
-    #wc = sys.argv[4]
-    #bc = sys.argv[5]
-    
     vh = sys.argv[1]
     dtm = sys.argv[2]
     wc = sys.argv[3]
     bc = sys.argv[4]
     
     ###############################################
-    ##   start by buffering SZ to get max extent ##
+    ##   set processing for sr conversion        ##
     ###############################################
-    #arcpy.analysis.Buffer(sz, "lrg_buffer.shp", "9280 Meters", "FULL", "ROUND", "ALL")  # won't use this later because it is in the wrong coord. sys. 
-    #arcpy.env.extent = arcpy.Describe("lrg_buffer.shp").extent                          # this way the UTM conversions will only be done within this processing extent
     arcpy.env.extent = arcpy.Describe(vh).extent
     
     ##############################
@@ -78,7 +76,7 @@ def run_ssd():
     sr1 = arcpy.Describe(vh).spatialReference
     sr2 = arcpy.Describe(dtm).spatialReference
     if sr1.name != utm_sr.name:
-        arcpy.management.ProjectRaster(vh, 'vh_reproj.tif', utm_sr, "NEAREST") # these need to be written to file, can't just be held in memory?
+        arcpy.management.ProjectRaster(vh, 'vh_reproj.tif', utm_sr, "NEAREST") # these need to be written to file, can't just be held in memory.
         vh = 'vh_reproj.tif'
         arcpy.AddMessage("Vegetation height raster converted to UTM coordinates.")
     else:
@@ -190,8 +188,14 @@ def run_ssd():
     # check in sa extension
     arcpy.CheckInExtension("spatial")
 
-run_ssd()
+# run SSD function
+ run_ssd()
+
 # clean up files 
 def delete_files():
     arcpy.Delete_management(processing_dir)
-delete_files()
+try:
+    delete_files()
+except:
+    arcpy.AddError("Could not delete temporary files.")
+    sys.exit()
