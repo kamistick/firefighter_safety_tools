@@ -1,3 +1,4 @@
+# import relevant packages
 import arcpy
 import requests
 import re
@@ -6,26 +7,37 @@ import zipfile
 import os
 import sys
 
+
+# define parameters
 sz = sys.argv[1]
 save_path = sys.argv[2]
-# buffer to largest possible SZ buffer
-arcpy.analysis.Buffer(sz, "sz_with_lrg_donut_fc.shp", "9280 Meters", "FULL", "ROUND", "ALL")
 
-# check if spatial ref is WGS 84, if not convert (epsg = 4326)
-sr_bufsz = arcpy.Describe("sz_with_lrg_donut_fc.shp").SpatialReference.factoryCode
-if sr_bufsz != 4326:
-    arcpy.management.Project("sz_with_lrg_donut_fc.shp", "sz_buf_reproj.shp", arcpy.SpatialReference(4326))
-    sz = "sz_buf_reproj.shp"
-else:
-    sz = "sz_with_lrg_donut_fc.shp"
+############# get extent ##############
+try: 
+    # buffer to largest possible SZ buffer
+    arcpy.analysis.Buffer(sz, "sz_with_lrg_donut_fc.shp", "9280 Meters", "FULL", "ROUND", "ALL")
+    
+    # check if spatial ref is WGS 84, if not convert (epsg = 4326)
+    sr_bufsz = arcpy.Describe("sz_with_lrg_donut_fc.shp").SpatialReference.factoryCode
+    if sr_bufsz != 4326:
+        arcpy.management.Project("sz_with_lrg_donut_fc.shp", "sz_buf_reproj.shp", arcpy.SpatialReference(4326))
+        sz = "sz_buf_reproj.shp"
+    else:
+        sz = "sz_with_lrg_donut_fc.shp"
+    
+    
+    # get the extent of the buffered SZ
+    sz_ext = arcpy.Describe(sz).extent
+    sz_ext_xmin = sz_ext.XMin #lon, W
+    sz_ext_xmax = sz_ext.XMax #lon, E
+    sz_ext_ymin = sz_ext.YMin #lat, S
+    sz_ext_ymax = sz_ext.YMax #lat, N
 
-
-# get the extent of the buffered SZ
-sz_ext = arcpy.Describe(sz).extent
-sz_ext_xmin = sz_ext.XMin #lon, W
-sz_ext_xmax = sz_ext.XMax #lon, E
-sz_ext_ymin = sz_ext.YMin #lat, S
-sz_ext_ymax = sz_ext.YMax #lat, N
+except:
+    arcpy.AddError("Could not retrieve extent. Check input polygon.")
+    sys.exit()
+    
+###########################
 
 for rastype in ["EVH", "DTM"]:
     arcpy.AddMessage("Downloading LANDFIRE " + rastype + "...")
@@ -34,10 +46,15 @@ for rastype in ["EVH", "DTM"]:
         ras_type = "200EVH"
     if rastype =="DTM":
         ras_type = "ELEV2020"
-    # submit landfire request
-    url = "https://lfps.usgs.gov/arcgis/rest/services/LandfireProductService/GPServer/LandfireProductService/submitJob?Layer_list=" + ras_type + "&Area_of_Interest=" + str(sz_ext_xmax) + "%20" +  str(sz_ext_ymin) + "%20" + str(sz_ext_xmin) + "%20" + str(sz_ext_ymax) 
-    response = requests.get(url)
-    open(save_path + "//landfire.txt", "wb").write(response.content)
+    
+    try:
+        # submit landfire request
+        url = "https://lfps.usgs.gov/arcgis/rest/services/LandfireProductService/GPServer/LandfireProductService/submitJob?Layer_list=" + ras_type + "&Area_of_Interest=" + str(sz_ext_xmax) + "%20" +  str(sz_ext_ymin) + "%20" + str(sz_ext_xmin) + "%20" + str(sz_ext_ymax) 
+        response = requests.get(url)
+        open(save_path + "//landfire.txt", "wb").write(response.content)
+    except:
+        arcpy.AddError("Could not submit LANDFIRE request from URL: " + url)
+        sys.exit()
     
     # get the job ID and wait a certain amount of time
     # then use below link with jobID to download the zip
@@ -102,7 +119,11 @@ for rastype in ["EVH", "DTM"]:
     
         
 # clean up files
-os.remove(save_path + "//landfire_EVH.zip")
-os.remove(save_path + "//landfire_DTM.zip")
-os.remove(save_path + "//landfire.txt")
-os.remove(save_path + "//landfire_processing.txt")
+try:
+    os.remove(save_path + "//landfire_EVH.zip")
+    os.remove(save_path + "//landfire_DTM.zip")
+    os.remove(save_path + "//landfire.txt")
+    os.remove(save_path + "//landfire_processing.txt")
+    
+except: 
+        arcpy.AddWarning("Temporary files could not be deleted.")
