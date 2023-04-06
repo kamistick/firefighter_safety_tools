@@ -9,7 +9,7 @@ This repository holds an ArcGIS toolbox which contains useful tools for download
 The toolbox was built using ArcGIS Pro v. 3.0.0 and relies on Python v. 3.9.11. Therefore, it is recommended that the toolbox is used in comparable software versions. Some of the tools within the toolbox rely on ArcGIS geoprocessing tools within the Spatial Analyst tools. Therefore, an ArcGIS Pro license with Spatial Analyst tools is needed to use to the toolbox.
 
 ## User Guide 
-To use the toolbax in the ArcGIS Pro GUI, download the .atbx file to an appropriate directory. Then add the toolbox to a new or existing project in ArcGIS Pro. To do this, navigate to and select FFS_tools.atbx and press 'OK'. The toolbox should appear in your catalog and can be expanded to display available tools. To use available tools, double click on their name and follow tool instructions. Tool descriptions are available by hovering over or clicking on the blue question mark at the top of the geoprocessing panel. Parameter descriptions and information are available by hovering over the “i” buttons to the left of parameter boxes. The .py scripts associated with each tool are embedded into the toolboxes but can be more easily referenced/downloaded directly from this repository. 
+To use the toolbox in the ArcGIS Pro GUI, download the .atbx file to an appropriate directory. Then add the toolbox to a new or existing project in ArcGIS Pro. To do this, navigate to and select FFS_tools.atbx and press 'OK'. The toolbox should appear in your catalog and can be expanded to display available tools. To use available tools, double click on their name and follow tool instructions. Tool descriptions are available by hovering over or clicking on the blue question mark at the top of the geoprocessing panel. Parameter descriptions and information are available by hovering over the “i” buttons to the left of parameter boxes. The .py scripts associated with each tool are embedded into the toolboxes but can be more easily referenced/downloaded directly from this repository. 
 
 ## Tool Documentation
 
@@ -39,7 +39,7 @@ This tool uses vegetation height, terrain slope, wind speed, and burning conditi
 #### Parameters
 | Name  | Explanation | Data Type
 | ------------- | ------------- | ------------- |
-| Vegetation Height  | **LANDFIRE Existing Vegetation Height (EVH)** raster. If downloaded using "Download LANDFIRE EVH and DEM from Polygon" tool this raster (in TIF format) can be found in your previously specified workspace, in a subfolder named "landfire_EVH”. | Raster Layer |
+| Vegetation Height  | LANDFIRE Existing Vegetation Height (EVH) raster. If downloaded using "Download LANDFIRE EVH and DEM from Polygon" tool this raster (in TIF format) can be found in your previously specified workspace, in a subfolder named "landfire_EVH”. | Raster Layer |
 | Digital terrain model (DTM) | Digital terrain model raster. If downloaded using "Download LANDFIRE EVH and DTM from Polygon" tool this raster (in TIF format) can be found in your previously specified workspace, in a subfolder named "landfire_DTM". | Raster Layer |
 | Wind Speed | The anticipated wind speed a user would like to investigate, selected from a dropdown menu: <br> Light (0-10 mph) <br> Moderate (11-20 mph) <br> High (>20 mph) | String |
 | Burning Condition | The anticipated burning condition a user would like to investigate, selected from a dropdown menu: <br> Low <br> Moderate <br> Extreme | String |
@@ -54,7 +54,7 @@ This tool allows users to assess the suitability of a specific target safety zon
 | Name  | Explanation | Data Type
 | ------------- | ------------- | ------------- |
 | Safety Zone | Polygon representing safety zone of interest. | Feature Layer, Feature Class |
-| Vegetation Height | **LANDFIRE Existing Vegetation Height (EVH)** raster. If downloaded using "Download LANDFIRE EVH and DEM from Polygon" tool this raster (in TIF format) can be found in your previously specified workspace, in a subfolder named "landfire_EVH".  | Raster Layer |
+| Vegetation Height | LANDFIRE Existing Vegetation Height (EVH) raster. If downloaded using "Download LANDFIRE EVH and DEM from Polygon" tool this raster (in TIF format) can be found in your previously specified workspace, in a subfolder named "landfire_EVH".  | Raster Layer |
 | Digital terrain model (DTM) | Digital terrain model raster. If downloaded using "Download LANDFIRE EVH and DTM from Polygon" tool this raster (in TIF format) can be found in your previously specified workspace, in a subfolder named "landfire_DTM".  | Raster Layer |
 | Wind Speed | The anticipated wind speed a user would like to investigate, selected from a dropdown menu: <br> Light (0-10 mph) <br> Moderate (11-20 mph) <br> High (>20 mph) | String |
 | Burning Condition | The anticipated burning condition a user would like to investigate, selected from a dropdown menu: <br> Low <br> Moderate <br> Extreme | String |
