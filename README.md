@@ -6,7 +6,7 @@ This repository holds an ArcGIS toolbox which contains useful tools for download
 
 ## Software requirements 
 
-The toolbox was built using ArcGIS Pro v. 3.0.0 and relies on Python v. 3.9.11. Therefore, it is recommended that the tool is used in a comparable software versions. Some of the tools within the toolbox rely on ArcGIS geoprocessing tools within the Spatial Analyst tools. Therefore, an ArcGIS Pro license with Spatial Analyst tools is needed to use to the toolbox.
+The toolbox was built using ArcGIS Pro v. 3.0.0 and relies on Python v. 3.9.11. Therefore, it is recommended that the toolbox is used in comparable software versions. Some of the tools within the toolbox rely on ArcGIS geoprocessing tools within the Spatial Analyst tools. Therefore, an ArcGIS Pro license with Spatial Analyst tools is needed to use to the toolbox.
 
 ## User Guide 
 To use the toolbax in the ArcGIS Pro GUI, download the .atbx file to an appropriate directory. Then add the toolbox to a new or existing project in ArcGIS Pro. To do this, navigate to and select FFS_tools.atbx and press 'OK'. The toolbox should appear in your catalog and can be expanded to display available tools. To use available tools, double click on their name and follow tool instructions. Tool descriptions are available by hovering over or clicking on the blue question mark at the top of the geoprocessing panel. Parameter descriptions and information are available by hovering over the “i” buttons to the left of parameter boxes. The .py scripts associated with each tool are embedded into the toolboxes but can be more easily referenced/downloaded directly from this repository. 
