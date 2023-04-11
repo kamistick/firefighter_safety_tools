@@ -1,5 +1,10 @@
 # firefighter_safety_tools
 
+> **Warning** <br>
+> **Disclaimer:** The University of Utah and the operator of this website (along with their employees or agents) are not responsible for any decisions or results of the decisions that you make. You assume all risk arising from reliance on this website and, by using this website you agree to hold the University of Utah and the operation of the website harmless for damages arising out of your actions, whether or not in reliance on information provided through the website.
+> 
+>The information provided through the website application is given “as is”. To the maximum extent permitted by applicable law, the University of Utah and the operator of the website disclaim all representations and warranties, expressed or implied, with respect to such information, services, products, and materials, including without limitation any implied warranties or merchantability, fitness for a particular purpose and noninfringement. In no event will the University of Utah or website operator be liable for any consequential, indirect, incidental, special, or punitive damages, however caused and under any theory of liability (including negligence), arising from your use of the website or the provision of the information, services, products, and materials provided to or by the University of Utah or the website operator, even if the University of Utah or website operator has been advised of the possibility of such damages.
+
 ## Description
 
 This repository holds an ArcGIS toolbox which contains useful tools for downloading and analyzing data related to wildland firefighter safety.  
