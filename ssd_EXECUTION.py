@@ -12,6 +12,7 @@
 ## of the information, services, products, and materials provided to or by the University of Utah or the website operator,
 ## even if the University of Utah or website operator has been advised of the possibility of such damages.
 
+
 ## import relevant packages
 
 import arcpy
@@ -38,7 +39,7 @@ except:
 ## create processing folder ##
 ##############################
 try: 
-    processing_dir = sys.argv[5] + "//processing"
+    processing_dir = sys.argv[6] + "//processing"
     if not os.path.exists(processing_dir):
             os.mkdir(processing_dir)
     
@@ -54,10 +55,13 @@ def run_ssd():
     ##############################
     ## get parameters from tool ##
     ##############################
-    vh = sys.argv[1]
-    dtm = sys.argv[2]
-    wc = sys.argv[3]
-    bc = sys.argv[4]
+    
+    tc = sys.argv[1]      # boolean: do you want to use a buffer? (checkbox, FAKE boolean, actually a string 'false' or 'true')
+        if bool_buf=='true':                # if yes, last one is the size of buffer, a string IN METERS (string)
+        vh = sys.argv[2]
+        dtm = sys.argv[3]
+        wc = sys.argv[4]
+        bc = sys.argv[5]
     
     ###############################################
     ##   set processing for sr conversion        ##
@@ -197,7 +201,7 @@ def run_ssd():
     ## for the entire input safety zone
     ssd = 8 * vh_meters * slope_remap
     
-    ssd.save(sys.argv[6])
+    ssd.save(sys.argv[7])
     arcpy.AddMessage(ctime() + ": Done.")
     # check in sa extension
     arcpy.CheckInExtension("spatial")

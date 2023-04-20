@@ -16,6 +16,8 @@ The toolbox was built using ArcGIS Pro v. 3.0.0 and relies on Python v. 3.9.11. 
 ## User Guide 
 To use the toolbox in the ArcGIS Pro GUI, download the .atbx file to an appropriate directory. Then add the toolbox to a new or existing project in ArcGIS Pro. To do this, navigate to and select FFS_tools.atbx and press 'OK'. The toolbox should appear in your catalog and can be expanded to display available tools. To use available tools, double click on their name and follow tool instructions. Tool descriptions are available by hovering over or clicking on the blue question mark at the top of the geoprocessing panel. Parameter descriptions and information are available by hovering over the “i” buttons to the left of parameter boxes. The .py scripts associated with each tool are embedded into the toolboxes but can be more easily referenced/downloaded directly from this repository. 
 
+When used in the ArcGIS Pro GUI, the Safe Separation Distance (SSD) and Safe Separation Distance Evaluator (SSDE) tools both require users to agree to the terms and conditions (see above) via a checkbox before running the tool.  
+
 ## Tool Documentation
 
 The following tools are documented with a description, parameter specifications, and examples:

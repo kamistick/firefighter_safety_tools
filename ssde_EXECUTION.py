@@ -38,7 +38,7 @@ except:
 ##############################
 ## create processing folder ##
 ##############################
-processing_dir = sys.argv[6] + "//SSDE_processing" 
+processing_dir = sys.argv[7] + "//SSDE_processing" 
 if not os.path.exists(processing_dir):
         os.mkdir(processing_dir)
 
@@ -51,11 +51,11 @@ def run_ssde():
     ##############################
     ## get parameters from tool ##
     ##############################
-    sz = sys.argv[1]
-    vh = sys.argv[2]
-    dtm = sys.argv[3]
-    wc = sys.argv[4]
-    bc = sys.argv[5]
+    sz = sys.argv[2]
+    vh = sys.argv[3]
+    dtm = sys.argv[4]
+    wc = sys.argv[5]
+    bc = sys.argv[6]
     
     ###############################################
     ##   start by buffering SZ to get max extent ##
@@ -249,7 +249,7 @@ def run_ssde():
     seg_raster = SegmentMeanShift(in_raster = ssd_sml_donut, spectral_detail = 8,
                                   spatial_detail = 8, min_segment_size = 20,
                                   max_segment_size = -1)
-    seg_raster.save(sys.argv[6] + "seg_ras.tif")
+    seg_raster.save(sys.argv[7] + "seg_ras.tif")
     arcpy.AddMessage(ctime() + ": Done.")
     ##############################
     ##   pSSD calculations      ## 
@@ -258,7 +258,7 @@ def run_ssde():
     
     ## start by getting the euclidian distance for each segment
     # get a list of OIDs for each segment/group of segments
-    cursor = arcpy.da.SearchCursor(sys.argv[6] + "seg_ras.tif", ['Value'])
+    cursor = arcpy.da.SearchCursor(sys.argv[7] + "seg_ras.tif", ['Value'])
     segment_ids = []
     for row in cursor:
         segment_ids.append(row[0])
@@ -278,7 +278,7 @@ def run_ssde():
     
     ## use list of pssd rasters to get raster with minimum across all pssds
     minimum_pssd = CellStatistics(raslist, "MINIMUM")
-    minimum_pssd.save(sys.argv[7])
+    minimum_pssd.save(sys.argv[8])
     
     arcpy.AddMessage(ctime() + ": Done.")
     
@@ -288,7 +288,7 @@ def run_ssde():
     arcpy.AddMessage(ctime() + ": Determining areas where SSD has been met...")
     # use Con to determine areas >1.0 (safe, SSD met) and <1.0 (unsafe, SSD not met)
     binary_pssd = Con(minimum_pssd, 1, 0, "Value > 1.0")
-    binary_pssd.save(sys.argv[8])
+    binary_pssd.save(sys.argv[9])
     arcpy.AddMessage(ctime() + ": Done.")
     arcpy.AddMessage(ctime() + ": Getting safest point...")
     # get maximum value of minimum_pssd
@@ -296,7 +296,7 @@ def run_ssde():
     # set everything that is not the max value to NoData
     max_pixel_only = SetNull(minimum_pssd, max_minimum_pssd, "VALUE <> " + str(max_minimum_pssd))
     # convert the new raster to a point (should result in one point)
-    arcpy.conversion.RasterToPoint(max_pixel_only, sys.argv[9])
+    arcpy.conversion.RasterToPoint(max_pixel_only, sys.argv[10])
     arcpy.AddMessage(ctime() + ": Done.")
     
     # check in sa extension
@@ -310,7 +310,7 @@ run_ssde()
 # clean up files 
 def delete_files():
     arcpy.Delete_management(processing_dir)
-    seg_ras = Raster(sys.argv[6] + "seg_ras.tif")
+    seg_ras = Raster(sys.argv[7] + "seg_ras.tif")
     arcpy.Delete_management(seg_ras)
 
 try:
