@@ -57,7 +57,7 @@ def run_ssd():
     ##############################
     
     tc = sys.argv[1]      # boolean: do you want to use a buffer? (checkbox, FAKE boolean, actually a string 'false' or 'true')
-        if bool_buf=='true':                # if yes, last one is the size of buffer, a string IN METERS (string)
+    if tc =='true':                # if yes, last one is the size of buffer, a string IN METERS (string)
         vh = sys.argv[2]
         dtm = sys.argv[3]
         wc = sys.argv[4]
@@ -207,7 +207,7 @@ def run_ssd():
     arcpy.CheckInExtension("spatial")
 
 # run SSD function
- run_ssd()
+run_ssd()
 
 # clean up files 
 def delete_files():
