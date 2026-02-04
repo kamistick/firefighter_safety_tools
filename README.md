@@ -36,7 +36,7 @@ If you plan to use other tools in this toolbox, such as Safe Separation Distance
 | ------------- | ------------- | ------------- |
 | Polygon (study area or safety zone) |  An input polygon that defines your study area of interest. This polygon can be a potential safety zone, but if you are planning to examine multiple safety zones within a study area it is suggested to use a polygon that encompasses your entire study area for this step. This polygon must fall within the US, including insular areas.   |  Feature Layer, Feature Class, Shapefile  |
 | Output folder | The folder within which your downloaded data will be saved. Subfolders will be generated automatically in this workspace. | Folder |
-| Email | A valid email address (e.g. name@domain.com) is required by LANFIRE's API for making data download requests. | Text String |
+| Email | A valid email address is required by LANFIRE's API for making data download requests. | Text String |
 
 #### Example usage
 The first parameter (‘Polygon (study area or safety zone)’) can either be selected from a folder by clicking on the folder icon and navigating to and selecting the polygon. If your polygon has already been added to your current map it can be selected from the dropdown menu. The ‘Output folder’ can be selected by clicking the folder icon and navigating to and selecting the target folder, or by typing in the path to the folder. 
